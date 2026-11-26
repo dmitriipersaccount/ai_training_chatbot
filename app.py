@@ -28,10 +28,10 @@ if prompt := st.chat_input("Напиши боту", max_chars=1500):
     with st.chat_message("assistant"):
         try:
             response = client.responses.create(
-                model="gpt-5-mini",
+                model="gpt-5.4-mini",
                 instructions=instructions,
                 input=[*messages[-12:], user_message],
-                reasoning={"effort": "minimal"},
+                reasoning={"effort": "none"},
                 max_output_tokens=500,
                 store=False,
             )
