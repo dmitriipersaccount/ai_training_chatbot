@@ -35,8 +35,12 @@ if prompt := st.chat_input("Напиши боту", max_chars=1500):
                 max_output_tokens=500,
                 store=False,
             )
-        except OpenAIError:
-            st.error("Запрос к модели не прошёл. Попробуй ещё раз.")
+        except OpenAIError as error:
+            # Полный текст ошибки уходит только в логи приложения (Manage app → логи).
+            print(f"OpenAI error: {error!r}", flush=True)
+            status = getattr(error, "status_code", None)
+            details = type(error).__name__ + (f", код {status}" if status else "")
+            st.error(f"Запрос к модели не прошёл ({details}). Попробуй ещё раз.")
         else:
             answer = response.output_text
             if answer:
